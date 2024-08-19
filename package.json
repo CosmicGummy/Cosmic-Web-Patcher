@@ -14,6 +14,7 @@
     "@emotion/styled": "^11.13.0",
     "@mui/material": "^5.16.6",
     "@wasmer/sdk": "https://github.com/CosmicGummy/wasmer-js.git#hack-type-hint-workaround",
+    "coi-serviceworker": "^0.1.7",
     "formik": "^2.4.6",
     "jotai": "^2.9.2",
     "react": "^18.3.1",
