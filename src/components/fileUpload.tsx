@@ -8,10 +8,11 @@ const HiddenUpload = styled("input")({
 
 type Props = {
   id: string;
+  label: string;
   onUpload: (args: { name: string; file: Uint8Array }) => void;
 } & Omit<ButtonProps, "component">;
 
-export function FileUpload({ id, onUpload, ...buttonProps }: Props) {
+export function FileUpload({ id, label, onUpload, ...buttonProps }: Props) {
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -30,7 +31,7 @@ export function FileUpload({ id, onUpload, ...buttonProps }: Props) {
       <HiddenUpload id={id} type="file" onChange={handleFileUpload} />
       <label htmlFor={id}>
         <Button component="span" {...buttonProps}>
-          Upload
+          {label}
         </Button>
       </label>
     </>

@@ -29,6 +29,7 @@ export function UploadScreen() {
       <FileUpload
         id="file-upload"
         fullWidth
+        label="Load ROM"
         onUpload={({ name, file }) => {
           setInRom({ name, file });
           setVisible(false);
