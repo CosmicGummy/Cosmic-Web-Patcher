@@ -80,6 +80,7 @@ async function applyPatches({
 export function PatchScreen() {
   const [inRom] = useAtom(inRomAtom);
   const [error, setError] = React.useState<unknown | null>(null);
+  const [loading, setLoading] = React.useState<boolean>(false);
   const [visible, setVisible] = React.useState(false);
   const [patchedRom, setPatchedRom] = React.useState<Uint8Array | null>(null);
   const [checked, setChecked] = React.useState<Record<string, boolean>>({});
@@ -92,15 +93,20 @@ export function PatchScreen() {
     .exhaustive();
 
   async function applyPatch() {
+    setLoading(true);
     setPatchedRom(null);
     setError(null);
-    const { error, patchedRom } = await applyPatches({
-      checked,
-      patches,
-      inRomFile: inRom.file,
-    });
-    setError(error);
-    setPatchedRom(patchedRom ?? null);
+    try {
+      const { error, patchedRom } = await applyPatches({
+        checked,
+        patches,
+        inRomFile: inRom.file,
+      });
+      setError(error);
+      setPatchedRom(patchedRom ?? null);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -137,7 +143,9 @@ export function PatchScreen() {
           ))}
         </List>
 
-        <Button onClick={applyPatch}>Apply patches</Button>
+        <Button onClick={applyPatch} disabled={loading}>
+          {loading ? "Applying..." : "Apply patches"}
+        </Button>
         <FadingBox visible={patchedRom != null}>
           {patchedRom != null && (
             <Button
